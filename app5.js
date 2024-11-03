@@ -29,8 +29,8 @@ app.get("/luck", (req, res) => {
 
 app.get("/janken", (req, res) => {
   let hand = req.query.hand;
-  let win = Number( req.query.win );
-  let total = Number( req.query.total );
+  let win = Number( req.query.win )==0;//numberというへんすうに変換することで，数値として扱う
+  let total = Number( req.query.total )==0;
   console.log( {hand, win, total});
   const num = Math.floor( Math.random() * 3 + 1 );
   let cpu = '';
@@ -40,9 +40,17 @@ app.get("/janken", (req, res) => {
   // ここに勝敗の判定を入れる
   // 今はダミーで人間の勝ちにしておく
   let judgement = '勝ち';
-  win += 1;
-  total += 1;
-  const display = {
+  if((num==1&&hand=='チョキ')||(num==2&&hand=='パー')||(num==3&&hand=='グー')){
+    judgement = '負け';
+    total += 1;
+  } else if (hand==cpu){
+    judgement = 'あいこ'; //愛顧の場合の処理をおこなう
+  } else {
+    win += 1;//買ったときだけぷらす１
+    total += 1;
+  }
+
+  const display = {  //表示するための関数
     your: hand,
     cpu: cpu,
     judgement: judgement,
