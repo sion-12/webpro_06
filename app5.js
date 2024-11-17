@@ -23,14 +23,18 @@ app.get("/luck", (req, res) => {
   let luck = '';
   if( num==1 ) luck = '大吉';
   else if( num==2 ) luck = '中吉';
+  else if( num==2 ) luck = '小吉';
+  else if( num==2 ) luck = '大大吉';
+  else if( num==2 ) luck = '凶';
+  else if( num==2 ) luck = '普通吉';
   console.log( 'あなたの運勢は' + luck + 'です' );
   res.render( 'luck', {number:num, luck:luck} );
 });
 
 app.get("/janken", (req, res) => {
   let hand = req.query.hand;
-  let win = Number( req.query.win )==0;//numberというへんすうに変換することで，数値として扱う
-  let total = Number( req.query.total )==0;
+  let win = Number( req.query.win )|| 0;//numberというへんすうに変換することで，数値として扱う
+  let total = Number( req.query.total ) || 0;
   console.log( {hand, win, total});
   const num = Math.floor( Math.random() * 3 + 1 );
   let cpu = '';
@@ -60,4 +64,62 @@ app.get("/janken", (req, res) => {
   res.render( 'janken', display );
 });
 
+
+app.get("/date", (req, res) => {
+  const schedules ={
+    '2024-11-05': "楽しいwebproの日",
+    '2024-11-11': "ポッキーの日",
+    '2024-11-12': "楽しいwebproの日",
+    '2024-11-19': "楽しいwebproの日",
+    '2024-11-20': "webproレポートの締め切り",
+    '2024-11-21': "バイトやだ",
+    '2024-11-23': "バイト",
+    '2024-11-24': "津田沼祭",
+    '2024-11-26': "楽しいwebproの日",
+    '2024-11-28': "歯医者",
+    '2024-11-30': "習い事",
+  };
+
+  const date = req.query.date;
+
+  let schedule;
+
+  if(date){
+    schedule = schedules[date] || "予定なし";
+  }
+  
+  const display = {  //表示するための関数
+    date: date,
+    schedule: schedule
+  }
+  
+    res.render('date', display);
+  });
+
+app.get("/food", (req,res) => {
+  const manu={
+    "米":["カレーライス","鮭おにぎり","照りたま丼","海鮮丼","炒飯"],
+    "パン":["ハンバーガー","サンドウィッチ","ピザ","フレンチトースト"],
+    "麺":["豚骨ラーメン","かきたまうどん","明太クリームパスタ","焼きそば"]
+  };
+
+  const food = req.query.food;
+  const option = manu[food];
+
+let select;
+
+if(option){
+  select =option[Math.floor(Math.random()* option.length)];
+}
+
+  const display = {
+    food : food  || "主食を選んで下さい",
+    select : select ||"わかりません!"
+  };
+
+  res.render('food', display);
+
+});
+
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
+
