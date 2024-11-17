@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>スケジュールの検索</title>
+</head>
+<body>
+    <form action="/date" method="get">
+        <h1>スケジュールの検索</h1>
+        <label for="date">日付を選択してね！</label>
+        <input type="date" id="date" name="date">
+        <input type="submit" value="送信">
+    </form>   
+
+    <p>日付: <%= date %></p>
+    <p>予定: <%= schedule %></p>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>メニューの提案</title>
+</head>
+<body>
+    <h1>ご飯の提案</h1>
+
+    <form action="/food" method="get">
+        <h2>食材を選んでください：</h2>
+        <label>
+            <input type="radio" name="food" value="米"> 米
+        </label>
+        <label>
+            <input type="radio" name="food" value="パン"> パン
+        </label>
+        <label>
+            <input type="radio" name="food" value="麺"> 麺
+        </label>
+        <input type="submit" value="送信">
+    </form>
+
+    <p>選ばれた主食: <%= food %></p>
+    <p>おすすめメニュー: <%= select %></p>
+
+</body>
+</html>
