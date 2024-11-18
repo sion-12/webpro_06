@@ -21,13 +21,13 @@ app5.js...具体的なテンプレートに基づく本体のプログラムが�
 1. ```app5.js``` を起動する．
 1. Webブラウザでlocalhost:8080/hello1にアクセスする．
 
-結果:Hello World と Bon Jour が表示される．
+結果:Massage1とMassage2という変数にHello World と Bon Jour が出力され表示される．
 
 ### \hello2の利用手順と出力結果
 1. ```app5.js``` を起動する．
 1. Webブラウザでlocalhost:8080/hello2にアクセスする．
 
-結果:Hello World と Bon Jour が表示される．
+結果:直接Hello World と Bon Jour が出力され表示される．
 
 ### \iconの利用手順と出力結果
 1. ```app5.js``` を起動する．
@@ -49,14 +49,6 @@ app5.js...具体的なテンプレートに基づく本体のプログラムが�
 結果:勝敗を判定し，全試合中の勝利数が表示される．
 
 #####　プログラムの流れ
-
-```mermaid
-flowchart TD;
-開始-->終了;
-```
-
-
-
 ```mermaid
 flowchart TD;
 
@@ -80,7 +72,6 @@ loose --> end1
 
 結果:日付に対応したスケジュールが表示される．
 
-
 #####　プログラムの流れ
 ```mermaid
 flowchart TD;
@@ -100,11 +91,6 @@ yes -->  end1
 if --> |no| no
 no --> end1
 ```
-
-
-
-
-
 
 ### \foodの利用手順と出力結果
 1. ```app5.js``` を起動する．
