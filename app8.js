@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 let bbs = [];  // 本来はDBMSを使用するが，今回はこの変数にデータを蓄える
+let tasks = [];
 
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
@@ -85,24 +86,79 @@ app.post("/add", (req, res) => {
 // これより下はBBS関係
 app.post("/check", (req, res) => {
   // 本来はここでDBMSに問い合わせる
-  res.json( {number: bbs.length });//要素数がこれでわかる（全体の書き込み数）
+  res.json( {number: bbs.length });
 });
 
 app.post("/read", (req, res) => {
   // 本来はここでDBMSに問い合わせる
-  const start = Number( req.body.start );//基準となる番号を受け取る（90なら90以降の投稿を受け取る）ブラウザからのスタートを受け取りなさい
-  console.log( "read -> " + start );//実際にスタートを表示させる
+  const start = Number( req.body.start );
+  console.log( "read -> " + start );
   if( start==0 ) res.json( {messages: bbs });
-  else res.json( {messages: bbs.slice( start )});//その番号以下は切り取って，以降だけをレスポンスする
+  else res.json( {messages: bbs.slice( start )});
 });
 
-app.post("/post", (req, res) => {
+app.post("/posts", (req, res) => {
   const name = req.body.name;
   const message = req.body.message;
   console.log( [name, message] );
   // 本来はここでDBMSに保存する
   bbs.push( { name: name, message: message } );
-  res.json( {number: bbs.length } );//全投稿回数を返す
+  res.json( {number: bbs.length } );
+x});
+
+app.get("/bbs", (req,res) => {
+    console.log("GET /BBS");
+    res.json( {test: "GET /BBS" });
 });
+
+app.post("/bbs", (req,res) => {
+    console.log("POST /BBS");
+    res.json( {test: "POST /BBS"});
+})
+
+app.get("/bbs/:id", (req,res) => {
+    console.log( "GET /BBS/" + req.params.id );
+    res.json( {test: "GET /BBS/" + req.params.id });
+});
+
+app.put("/bbs/:id", (req,res) => {
+    console.log( "PUT /BBS/" + req.params.id );
+    res.json( {test: "PUT /BBS/" + req.params.id });
+});
+
+app.delete("/bbs/:id", (req,res) => {
+    console.log( "DELETE /BBS/" + req.params.id );
+    res.json( {test: "DELETE /BBS/" + req.params.id });
+});
+
+app.post('/post', (req, res) => {
+  const task = req.body.task;
+  console.log("追加タスク:", task);
+
+  // タスクを追加
+  tasks.push({ id: tasks.length + 1, task: task, completed: 'pending' });
+
+  // タスクのリストを返す
+  res.json({ tasks });
+});
+
+// タスクの完了状態を更新
+app.put('/update/:id', (req, res) => {
+  const { id } = req.params; // URLパラメータからIDを取得
+  const { completed } = req.body; // リクエストボディから完了状態を取得
+  
+  // タスクを探す
+  const task = tasks.find(t => t.id === parseInt(id));
+
+  if (task) {
+    task.completed = completed; // 完了状態を更新
+    console.log(`タスクID ${id} が${completed}に更新されました`);
+    res.json({ tasks });
+  } else {
+    res.status(404).json({ error: 'タスクが見つかりません' });
+  }
+});
+
+
 
 app.listen(8080, () => console.log("Example app listening on port 8080!"));
